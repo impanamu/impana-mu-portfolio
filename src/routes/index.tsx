@@ -8,7 +8,6 @@ import { Experience } from "@/components/portfolio/Experience";
 import { Achievements } from "@/components/portfolio/Achievements";
 import { Contact } from "@/components/portfolio/Contact";
 import { Footer } from "@/components/portfolio/Footer";
-import { CursorGlow } from "@/components/portfolio/CursorGlow";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -17,18 +16,19 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Premium portfolio of Impana MU — software engineer, problem solver, and full stack developer building modern, performant products.",
+          "Portfolio of Impana MU — Information Science Engineering student and aspiring SDE building scalable full-stack and AI applications.",
       },
-      { property: "og:title", content: "Impana MU — Software Engineer" },
+      { property: "og:title", content: "Impana MU — Aspiring SDE" },
       {
         property: "og:description",
-        content: "Premium portfolio showcasing engineering work, projects, and achievements.",
+        content:
+          "Premium portfolio showcasing full-stack engineering, AI projects, and certifications.",
       },
     ],
     links: [
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap",
       },
     ],
   }),
@@ -38,7 +38,6 @@ export const Route = createFileRoute("/")({
 function Portfolio() {
   return (
     <main className="relative min-h-screen overflow-x-clip bg-background text-foreground">
-      <CursorGlow />
       <Navbar />
       <Hero />
       <About />

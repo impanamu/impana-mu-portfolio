@@ -1,115 +1,171 @@
 import { motion } from "framer-motion";
-import { Download, Github, Linkedin, Mail, Send, Terminal } from "lucide-react";
 import { useState } from "react";
+import { Github, Linkedin, Mail, Download, Send } from "lucide-react";
+import { z } from "zod";
 import { Section } from "./Section";
+import { toast } from "sonner";
 
-const channels = [
-  { icon: Mail, label: "Email", value: "impana.mu@gmail.com", href: "mailto:impana.mu@gmail.com" },
-  { icon: Github, label: "GitHub", value: "github.com/impana", href: "#" },
-  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/impana", href: "#" },
-  { icon: Download, label: "Resume", value: "Download PDF", href: "#" },
+const schema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(100),
+  email: z.string().trim().email("Invalid email").max(255),
+  message: z.string().trim().min(1, "Message is required").max(1000),
+});
+
+const links = [
+  { icon: Mail, label: "Email", value: "impana.mu@example.com", href: "mailto:impana.mu@example.com" },
+  { icon: Github, label: "GitHub", value: "github.com/impana-mu", href: "https://github.com" },
+  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/impana-mu", href: "https://linkedin.com" },
+  { icon: Download, label: "Resume", value: "Download PDF", href: "/Impana_MU_Resume.pdf" },
 ];
 
 export function Contact() {
-  const [sent, setSent] = useState(false);
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [submitting, setSubmitting] = useState(false);
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = schema.safeParse(form);
+    if (!parsed.success) {
+      toast.error(parsed.error.issues[0]?.message ?? "Please check your inputs");
+      return;
+    }
+    setSubmitting(true);
+    setTimeout(() => {
+      setSubmitting(false);
+      setForm({ name: "", email: "", message: "" });
+      toast.success("Message sent. I'll get back to you soon.");
+    }, 700);
+  };
 
   return (
     <Section
       id="contact"
       eyebrow="Contact"
-      title="Open a channel"
-      subtitle="Drop a line — I'll respond within a day."
+      title="Let's build something great."
+      subtitle="Open to SDE roles, internships, and collaborations. The best way to reach me is below."
     >
-      <div className="grid gap-6 lg:grid-cols-5">
+      <div className="grid gap-6 lg:grid-cols-[1fr_1.2fr]">
         {/* Channels */}
-        <div className="space-y-3 lg:col-span-2">
-          {channels.map((c, i) => {
-            const Icon = c.icon;
-            return (
-              <motion.a
-                key={c.label}
-                href={c.href}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                whileHover={{ x: 6 }}
-                className="border-glow glass group flex items-center gap-4 rounded-2xl p-4 transition-colors hover:bg-white/[0.06]"
+        <div className="surface rounded-3xl p-7">
+          <div className="space-y-2">
+            {links.map((l) => (
+              <a
+                key={l.label}
+                href={l.href}
+                target={l.href.startsWith("http") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className="group flex items-center gap-4 rounded-2xl border border-transparent p-4 transition-all hover:border-white/[0.06] hover:bg-white/[0.03]"
               >
-                <div className="flex size-11 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--neon)]/30 to-[var(--cyan)]/30 text-[var(--cyan)]">
-                  <Icon className="size-5" />
-                </div>
+                <span className="grid size-10 place-items-center rounded-xl border border-[var(--copper)]/25 bg-[var(--copper)]/10 text-copper">
+                  <l.icon className="size-4" />
+                </span>
                 <div className="flex-1">
-                  <div className="font-mono text-[10px] uppercase tracking-widest text-foreground/50">
-                    {c.label}
+                  <div className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                    {l.label}
                   </div>
-                  <div className="text-sm text-foreground/90 transition-colors group-hover:text-[var(--cyan)]">
-                    {c.value}
+                  <div className="text-[14.5px] font-medium tracking-tight text-foreground">
+                    {l.value}
                   </div>
                 </div>
-              </motion.a>
-            );
-          })}
+                <span className="text-muted-foreground transition-colors group-hover:text-copper">
+                  →
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
 
-        {/* Terminal form */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
+        {/* Form */}
+        <motion.form
+          onSubmit={onSubmit}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="border-glow glass-strong overflow-hidden rounded-2xl lg:col-span-3"
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.6 }}
+          className="surface rounded-3xl p-7"
         >
-          <div className="flex items-center justify-between border-b border-white/10 bg-black/30 px-5 py-3">
-            <div className="flex items-center gap-2">
-              <span className="size-2.5 rounded-full bg-red-500/70" />
-              <span className="size-2.5 rounded-full bg-yellow-500/70" />
-              <span className="size-2.5 rounded-full bg-green-500/70" />
-            </div>
-            <div className="flex items-center gap-2 font-mono text-[10px] text-foreground/50">
-              <Terminal className="size-3" /> impana@portfolio:~/contact
-            </div>
-            <span className="w-12" />
-          </div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSent(true);
-              setTimeout(() => setSent(false), 3000);
-            }}
-            className="space-y-4 p-6 font-mono text-sm"
-          >
-            <Field label="name" placeholder="your name" />
-            <Field label="email" type="email" placeholder="you@domain.com" />
-            <div>
-              <label className="mb-1.5 block text-xs text-[var(--cyan)]">{">"} message</label>
-              <textarea
-                rows={5}
-                placeholder="type your message..."
-                className="w-full resize-none rounded-lg border border-white/10 bg-black/40 px-4 py-3 text-foreground outline-none transition-all placeholder:text-foreground/30 focus:border-[var(--neon)] focus:shadow-[0_0_25px_-5px_var(--neon)]"
+          <div className="grid gap-4 sm:grid-cols-2">
+            <Field label="Name">
+              <input
+                type="text"
+                maxLength={100}
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                className="input-base"
+                placeholder="Your name"
               />
-            </div>
+            </Field>
+            <Field label="Email">
+              <input
+                type="email"
+                maxLength={255}
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="input-base"
+                placeholder="you@company.com"
+              />
+            </Field>
+          </div>
+          <Field label="Message" className="mt-4">
+            <textarea
+              rows={5}
+              maxLength={1000}
+              value={form.message}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              className="input-base resize-none"
+              placeholder="Tell me about the role, project, or idea…"
+            />
+          </Field>
+          <div className="mt-6 flex items-center justify-between">
+            <span className="text-[12px] text-muted-foreground">
+              {form.message.length}/1000
+            </span>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-[var(--neon)] to-[var(--cyan)] px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-105"
+              disabled={submitting}
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--copper)] px-5 py-2.5 text-[13.5px] font-medium text-[#111] transition-all hover:bg-[#d9a572] disabled:opacity-60"
             >
-              {sent ? "Message sent ✓" : (<>execute --send <Send className="size-3.5" /></>)}
+              {submitting ? "Sending…" : "Send Message"}
+              <Send className="size-3.5" />
             </button>
-          </form>
-        </motion.div>
+          </div>
+        </motion.form>
       </div>
+
+      <style>{`
+        .input-base {
+          width: 100%;
+          background: rgba(255,255,255,0.025);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 12px;
+          padding: 12px 14px;
+          font-size: 14px;
+          color: var(--foreground);
+          outline: none;
+          transition: border-color .2s ease, background .2s ease;
+        }
+        .input-base::placeholder { color: var(--muted-foreground); }
+        .input-base:focus { border-color: rgba(198,142,85,0.45); background: rgba(255,255,255,0.04); }
+      `}</style>
     </Section>
   );
 }
 
-function Field({ label, type = "text", placeholder }: { label: string; type?: string; placeholder: string }) {
+function Field({
+  label,
+  children,
+  className = "",
+}: {
+  label: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div>
-      <label className="mb-1.5 block text-xs text-[var(--cyan)]">{">"} {label}</label>
-      <input
-        type={type}
-        placeholder={placeholder}
-        className="w-full rounded-lg border border-white/10 bg-black/40 px-4 py-2.5 text-foreground outline-none transition-all placeholder:text-foreground/30 focus:border-[var(--neon)] focus:shadow-[0_0_25px_-5px_var(--neon)]"
-      />
-    </div>
+    <label className={`block ${className}`}>
+      <span className="mb-1.5 block text-[11px] uppercase tracking-widest text-muted-foreground">
+        {label}
+      </span>
+      {children}
+    </label>
   );
 }
