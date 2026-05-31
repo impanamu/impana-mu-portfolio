@@ -13,9 +13,9 @@ const schema = z.object({
 
 const links = [
   { icon: Mail, label: "Email", value: "impana.mu@example.com", href: "mailto:impana.mu@example.com" },
-  { icon: Github, label: "GitHub", value: "github.com/impana-mu", href: "https://github.com" },
-  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/impana-mu", href: "https://linkedin.com" },
-  { icon: Download, label: "Resume", value: "Download PDF", href: "/Impana_MU_Resume.pdf" },
+  { icon: Github, label: "GitHub", value: "github.com/impana-mu", href: "https://github.com/impana-mu" },
+  { icon: Linkedin, label: "LinkedIn", value: "linkedin.com/in/impana-mu", href: "https://linkedin.com/in/impana-mu" },
+  { icon: Download, label: "Resume", value: "Download PDF", href: "/certificates/impana-mu-resume.pdf" },
 ];
 
 export function Contact() {
@@ -52,8 +52,9 @@ export function Contact() {
               <a
                 key={l.label}
                 href={l.href}
-                target={l.href.startsWith("http") ? "_blank" : undefined}
-                rel="noopener noreferrer"
+                target={l.href.startsWith("http") || l.href.startsWith("/certificates/") ? "_blank" : undefined}
+                rel={l.href.startsWith("http") || l.href.startsWith("/certificates/") ? "noopener noreferrer" : undefined}
+                download={l.label === "Resume"}
                 className="group flex items-center gap-4 rounded-2xl border border-transparent p-4 transition-all hover:border-white/[0.06] hover:bg-white/[0.03]"
               >
                 <span className="grid size-10 place-items-center rounded-xl border border-[var(--copper)]/25 bg-[var(--copper)]/10 text-copper">

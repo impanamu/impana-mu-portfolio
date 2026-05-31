@@ -97,7 +97,10 @@ export function Hero() {
             className="mt-9 flex flex-wrap gap-3"
           >
             <a
-              href="/Impana_MU_Resume.pdf"
+              href="/certificates/impana-mu-resume.pdf"
+              download
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center gap-2 rounded-full bg-[var(--copper)] px-5 py-3 text-sm font-medium text-[#111] transition-all hover:bg-[#d9a572]"
             >
               <Download className="size-4" />

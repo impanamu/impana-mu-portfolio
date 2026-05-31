@@ -9,8 +9,8 @@ const projects = [
     desc:
       "Online grocery management platform with authentication, cart management, inventory tracking, and order processing — engineered for reliability and clarity.",
     tech: ["React", "Django", "DRF", "SQLite"],
-    github: "#",
-    live: "#",
+    github: "https://github.com/impana-mu",
+    live: "https://github.com/impana-mu?tab=repositories",
     accent: "from-[#C68E55]/25 to-transparent",
   },
   {
@@ -19,8 +19,8 @@ const projects = [
     desc:
       "AI-powered emotion analytics platform combining facial emotion detection and text sentiment analysis to surface actionable insights from human signals.",
     tech: ["React", "Django", "Machine Learning"],
-    github: "#",
-    live: "#",
+    github: "https://github.com/impana-mu",
+    live: "https://github.com/impana-mu?tab=repositories",
     accent: "from-[#E8D8C4]/15 to-transparent",
   },
   {
@@ -29,8 +29,8 @@ const projects = [
     desc:
       "Research paper summarization platform with PDF analysis and AI-generated summaries — turning dense literature into a focused, digestible read.",
     tech: ["React", "Django", "NLP", "OpenAI"],
-    github: "#",
-    live: "#",
+    github: "https://github.com/impana-mu",
+    live: "https://github.com/impana-mu?tab=repositories",
     accent: "from-[#C68E55]/20 to-transparent",
   },
 ];
@@ -115,12 +115,16 @@ export function Projects() {
                 <div className="mt-8 flex flex-wrap gap-3">
                   <a
                     href={p.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-full bg-[var(--copper)] px-4 py-2 text-[13px] font-medium text-[#111] transition-all hover:bg-[#d9a572]"
                   >
                     Live Demo <ArrowUpRight className="size-3.5" />
                   </a>
                   <a
                     href={p.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.10] bg-white/[0.03] px-4 py-2 text-[13px] font-medium text-foreground transition-all hover:border-[var(--copper)]/40"
                   >
                     <Github className="size-3.5" /> GitHub

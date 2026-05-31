@@ -14,10 +14,10 @@ export function Footer() {
           <a href="mailto:impana.mu@example.com" className="transition-colors hover:text-copper">
             <Mail className="size-4" />
           </a>
-          <a href="https://github.com" className="transition-colors hover:text-copper">
+          <a href="https://github.com/impana-mu" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-copper">
             <Github className="size-4" />
           </a>
-          <a href="https://linkedin.com" className="transition-colors hover:text-copper">
+          <a href="https://linkedin.com/in/impana-mu" target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-copper">
             <Linkedin className="size-4" />
           </a>
         </div>
