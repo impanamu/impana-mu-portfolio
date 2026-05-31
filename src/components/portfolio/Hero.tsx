@@ -1,167 +1,176 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Code2, Cpu, Database, Github, Globe, Sparkles, Terminal, Zap } from "lucide-react";
-import { Particles } from "./Particles";
+import { ArrowUpRight, Download, Mail, Trophy, Code2, Cpu, Rocket } from "lucide-react";
+import portrait from "@/assets/impana.jpg";
 
-const roles = ["Software Engineer", "Problem Solver", "DSA Enthusiast", "Full Stack Developer"];
+const roles = ["Software Engineer", "Problem Solver", "Full Stack Developer", "AI Enthusiast"];
 
-const orbitIcons = [Code2, Database, Globe, Terminal, Cpu, Zap];
+const badges = [
+  { icon: Trophy, label: "CGPA 8.73", pos: "top-4 -left-2 md:-left-6" },
+  { icon: Code2, label: "Full Stack Developer", pos: "top-1/3 -right-4 md:-right-10" },
+  { icon: Cpu, label: "AI Projects", pos: "bottom-12 -left-6 md:-left-12" },
+  { icon: Rocket, label: "Aspiring SDE", pos: "-bottom-2 right-4 md:right-0" },
+];
 
 export function Hero() {
   const [i, setI] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setI((p) => (p + 1) % roles.length), 2200);
+    const id = setInterval(() => setI((p) => (p + 1) % roles.length), 2400);
     return () => clearInterval(id);
   }, []);
 
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden pt-32">
-      <div className="absolute inset-0 grid-bg" />
-      <Particles />
-      {/* light streak */}
+      {/* soft copper ambient */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/3 left-0 h-px w-full overflow-hidden"
-      >
-        <div
-          className="h-px w-1/3 bg-gradient-to-r from-transparent via-[var(--cyan)] to-transparent"
-          style={{ animation: "streak 7s linear infinite" }}
-        />
-      </div>
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 50% 35% at 75% 30%, rgba(198,142,85,0.18), transparent 60%)",
+        }}
+      />
 
-      <div className="container relative z-10 mx-auto grid max-w-7xl gap-12 px-6 pb-24 md:grid-cols-2 md:items-center">
+      <div className="container relative z-10 mx-auto grid max-w-6xl items-center gap-16 px-6 pb-24 md:grid-cols-[1.05fr_1fr]">
         {/* Left */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="glass mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-xs"
+            transition={{ duration: 0.6 }}
+            className="mb-7 inline-flex items-center gap-2.5 rounded-full border border-white/[0.08] bg-white/[0.03] px-3.5 py-1.5 text-[12px] text-muted-foreground backdrop-blur-md"
           >
-            <span className="size-2 animate-pulse-glow rounded-full bg-[var(--cyan)] shadow-[0_0_10px_var(--cyan)]" />
-            <span className="text-foreground/70">AVAILABLE FOR OPPORTUNITIES</span>
+            <span className="relative flex size-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--copper)] opacity-60" />
+              <span className="relative inline-flex size-1.5 rounded-full bg-[var(--copper)]" />
+            </span>
+            Available for SDE opportunities · 2026
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.7 }}
-            className="font-display text-6xl font-bold leading-[0.95] tracking-tight md:text-8xl"
+            transition={{ duration: 0.8, delay: 0.05 }}
+            className="text-[clamp(2.75rem,6vw,5.25rem)] font-semibold leading-[1.02] tracking-[-0.035em]"
           >
-            <span className="block text-foreground">IMPANA</span>
-            <span className="block text-gradient">MU</span>
+            Impana <span className="text-copper">MU</span>
           </motion.h1>
 
-          <div className="mt-6 flex h-10 items-center gap-3 font-mono">
-            <span className="text-[var(--cyan)]">{">"}</span>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="mt-4 text-lg text-foreground/80"
+          >
+            Information Science Engineering Student
+          </motion.p>
+
+          <div className="mt-3 flex h-8 items-center gap-2 text-[15px] text-muted-foreground">
+            <span className="text-copper">—</span>
             <AnimatePresence mode="wait">
               <motion.span
                 key={roles[i]}
-                initial={{ y: 10, opacity: 0 }}
+                initial={{ y: 8, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -10, opacity: 0 }}
+                exit={{ y: -8, opacity: 0 }}
                 transition={{ duration: 0.35 }}
-                className="text-lg text-foreground/90 md:text-xl"
               >
                 {roles[i]}
               </motion.span>
             </AnimatePresence>
-            <span className="ml-1 inline-block h-5 w-[2px] animate-pulse bg-[var(--neon)]" />
           </div>
 
-          <p className="mt-6 max-w-md text-foreground/60">
-            Crafting performant, beautifully engineered software at the intersection of design,
-            systems, and data structures.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="mt-7 max-w-xl text-[16px] leading-relaxed text-muted-foreground"
+          >
+            Passionate about building scalable applications, solving complex problems through data
+            structures and algorithms, and continuously learning modern software technologies.
+          </motion.p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mt-9 flex flex-wrap gap-3"
+          >
+            <a
+              href="/Impana_MU_Resume.pdf"
+              className="group inline-flex items-center gap-2 rounded-full bg-[var(--copper)] px-5 py-3 text-sm font-medium text-[#111] transition-all hover:bg-[#d9a572]"
+            >
+              <Download className="size-4" />
+              View Resume
+            </a>
             <a
               href="#projects"
-              className="border-glow rounded-full bg-gradient-to-r from-[var(--neon)] to-[var(--cyan)] px-6 py-3 text-sm font-medium text-background transition-transform hover:scale-105"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/[0.10] bg-white/[0.03] px-5 py-3 text-sm font-medium text-foreground transition-all hover:border-[var(--copper)]/40 hover:bg-white/[0.06]"
             >
-              View Projects
+              Explore Projects
+              <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
             <a
               href="#contact"
-              className="glass rounded-full px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-white/10"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              <Github className="mr-2 inline size-4" /> Get in touch
+              <Mail className="size-4" />
+              Contact Me
             </a>
-          </div>
-        </div>
-
-        {/* Right: 3D floating card with orbiting icons */}
-        <div className="relative mx-auto h-[420px] w-[420px] max-w-full">
-          <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,var(--neon),transparent_60%)] opacity-30 blur-2xl" />
-          {/* orbits */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="absolute size-[300px] rounded-full border border-white/10" />
-            <div className="absolute size-[380px] rounded-full border border-white/5" />
-            {orbitIcons.map((Icon, idx) => (
-              <div
-                key={idx}
-                className="absolute"
-                style={{
-                  animation: `orbit ${14 + idx * 2}s linear infinite`,
-                  animationDelay: `${-idx * 2}s`,
-                }}
-              >
-                <div className="glass flex size-11 items-center justify-center rounded-xl text-[var(--cyan)] glow-cyan">
-                  <Icon className="size-5" />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.7 }}
-            whileHover={{ rotateY: 8, rotateX: -6 }}
-            style={{ transformStyle: "preserve-3d" }}
-            className="border-glow glass-strong absolute left-1/2 top-1/2 flex h-56 w-72 -translate-x-1/2 -translate-y-1/2 flex-col justify-between rounded-2xl p-5 glow-purple animate-float"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex gap-1.5">
-                <span className="size-2 rounded-full bg-[var(--neon)]" />
-                <span className="size-2 rounded-full bg-[var(--cyan)]" />
-                <span className="size-2 rounded-full bg-white/30" />
-              </div>
-              <span className="font-mono text-[10px] text-foreground/50">PROFILE.SYS</span>
-            </div>
-            <div>
-              <div className="mb-3 flex items-center gap-3">
-                <div className="flex size-12 items-center justify-center rounded-xl bg-gradient-to-br from-[var(--neon)] to-[var(--cyan)] text-xl font-bold text-background">
-                  IM
-                </div>
-                <div>
-                  <div className="font-semibold">Impana MU</div>
-                  <div className="font-mono text-xs text-foreground/60">@impana.dev</div>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-2 font-mono text-[10px]">
-                <div className="rounded-md border border-white/10 px-2 py-1 text-center">
-                  <div className="text-[var(--cyan)]">600+</div>
-                  <div className="text-foreground/50">DSA</div>
-                </div>
-                <div className="rounded-md border border-white/10 px-2 py-1 text-center">
-                  <div className="text-[var(--neon)]">12+</div>
-                  <div className="text-foreground/50">Projects</div>
-                </div>
-                <div className="rounded-md border border-white/10 px-2 py-1 text-center">
-                  <div className="text-foreground">9.1</div>
-                  <div className="text-foreground/50">CGPA</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center justify-between text-[10px] font-mono text-foreground/60">
-              <span className="flex items-center gap-1">
-                <Sparkles className="size-3 text-[var(--cyan)]" /> Online
-              </span>
-              <span>v2.0</span>
-            </div>
           </motion.div>
         </div>
+
+        {/* Right - portrait */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          className="relative mx-auto h-[420px] w-[420px] max-w-full"
+        >
+          {/* copper halo */}
+          <div
+            aria-hidden
+            className="absolute inset-0 rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(198,142,85,0.45), transparent 65%)",
+              filter: "blur(20px)",
+            }}
+          />
+          {/* ring */}
+          <div className="absolute inset-6 rounded-full border border-[var(--copper)]/25" />
+          <div className="absolute inset-0 rounded-full border border-white/[0.06]" />
+
+          {/* portrait */}
+          <div className="absolute inset-10 overflow-hidden rounded-full ring-1 ring-white/10 copper-glow">
+            <img
+              src={portrait}
+              alt="Portrait of Impana MU"
+              className="size-full object-cover"
+              loading="eager"
+            />
+            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#111]/40 via-transparent to-transparent" />
+          </div>
+
+          {/* floating badges */}
+          {badges.map((b, idx) => (
+            <motion.div
+              key={b.label}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 + idx * 0.12, duration: 0.6 }}
+              className={`absolute ${b.pos}`}
+            >
+              <div
+                className="flex items-center gap-2 rounded-full border border-white/[0.08] bg-[#1A1A1A]/90 px-3 py-1.5 text-[12px] text-foreground/90 shadow-[0_8px_30px_-10px_rgba(0,0,0,0.6)] backdrop-blur-md animate-float"
+                style={{ animationDelay: `${idx * 0.8}s` }}
+              >
+                <b.icon className="size-3.5 text-copper" />
+                {b.label}
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

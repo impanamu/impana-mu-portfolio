@@ -1,22 +1,44 @@
 import { motion } from "framer-motion";
 import { Section } from "./Section";
+import {
+  Braces,
+  Layout,
+  Server,
+  Database,
+  Wrench,
+  Cpu,
+} from "lucide-react";
 
 const groups = [
   {
-    title: "Languages",
-    items: ["C++", "Python", "JavaScript", "TypeScript", "Java", "SQL"],
+    icon: Braces,
+    title: "Programming",
+    items: ["Java", "Python", "C++", "C"],
   },
   {
-    title: "Web Development",
-    items: ["React", "Next.js", "Node.js", "Express", "Tailwind", "PostgreSQL", "MongoDB"],
+    icon: Layout,
+    title: "Frontend",
+    items: ["React", "HTML", "CSS"],
   },
   {
-    title: "DSA & Core CS",
-    items: ["Algorithms", "Data Structures", "OS", "DBMS", "OOP", "Networks", "System Design"],
+    icon: Server,
+    title: "Backend",
+    items: ["Django", "REST APIs"],
   },
   {
+    icon: Database,
+    title: "Database",
+    items: ["MongoDB", "SQLite"],
+  },
+  {
+    icon: Wrench,
     title: "Tools",
-    items: ["Git", "Docker", "Linux", "Figma", "Vercel", "AWS", "VS Code"],
+    items: ["Git", "GitHub", "VS Code", "Jupyter"],
+  },
+  {
+    icon: Cpu,
+    title: "Core CS",
+    items: ["DSA", "OOP", "DBMS", "Operating Systems"],
   },
 ];
 
@@ -25,36 +47,33 @@ export function Skills() {
     <Section
       id="skills"
       eyebrow="Skills"
-      title="A modern engineering stack"
-      subtitle="Tools, languages, and concepts I use to build production software."
+      title="A toolkit honed across the stack."
+      subtitle="Languages, frameworks, and concepts I work with day to day."
     >
-      <div className="grid gap-5 md:grid-cols-2">
-        {groups.map((g, gi) => (
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {groups.map((g, idx) => (
           <motion.div
             key={g.title}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: gi * 0.08 }}
-            className="border-glow glass rounded-2xl p-6"
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, delay: idx * 0.05, ease: [0.22, 1, 0.36, 1] }}
+            className="surface surface-hover group rounded-2xl p-6"
           >
-            <div className="mb-5 flex items-center justify-between">
-              <h3 className="font-display text-xl font-semibold">{g.title}</h3>
-              <span className="font-mono text-xs text-foreground/40">{g.items.length} items</span>
+            <div className="flex items-center gap-3">
+              <span className="grid size-9 place-items-center rounded-xl border border-[var(--copper)]/25 bg-[var(--copper)]/10 text-copper transition-colors group-hover:bg-[var(--copper)]/15">
+                <g.icon className="size-4" />
+              </span>
+              <h3 className="text-[14px] font-medium tracking-tight">{g.title}</h3>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {g.items.map((it, i) => (
-                <motion.span
+            <div className="mt-5 flex flex-wrap gap-2">
+              {g.items.map((it) => (
+                <span
                   key={it}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: gi * 0.05 + i * 0.03 }}
-                  whileHover={{ scale: 1.08, y: -2 }}
-                  className="cursor-default rounded-full border border-white/10 bg-white/5 px-4 py-1.5 font-mono text-xs text-foreground/80 transition-all hover:border-[var(--cyan)] hover:text-[var(--cyan)] hover:shadow-[0_0_20px_oklch(0.82_0.16_210/0.4)]"
+                  className="rounded-full border border-white/[0.07] bg-white/[0.02] px-3 py-1 text-[12.5px] text-foreground/85 transition-colors hover:border-[var(--copper)]/30 hover:text-foreground"
                 >
                   {it}
-                </motion.span>
+                </span>
               ))}
             </div>
           </motion.div>

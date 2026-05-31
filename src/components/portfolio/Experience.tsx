@@ -1,56 +1,68 @@
 import { motion } from "framer-motion";
+import { Award, ExternalLink } from "lucide-react";
 import { Section } from "./Section";
 
-const items = [
+const certs = [
   {
-    when: "2024 — Present",
-    role: "Software Engineering Intern",
-    org: "Stealth Startup",
-    body: "Building core product features across the stack — React, Node, Postgres. Owning end-to-end delivery.",
+    title: "Introduction to Cloud Computing & Core AWS Services",
+    issuer: "Coursera",
+    file: "/certs/cloud-computing.pdf",
   },
   {
-    when: "2023 — 2024",
-    role: "Open Source Contributor",
-    org: "Various Projects",
-    body: "Shipped patches to TypeScript-based tooling and React component libraries.",
+    title: "Supervised Machine Learning: Classification",
+    issuer: "IBM · Coursera",
+    file: "/certs/machine-learning.pdf",
   },
   {
-    when: "2022 — 2023",
-    role: "Technical Lead",
-    org: "College CS Club",
-    body: "Led workshops on algorithms and system design. Mentored 40+ juniors through DSA fundamentals.",
+    title: "Agile Project Management",
+    issuer: "University of Colorado Boulder · Coursera",
+    file: "/certs/cryptography.pdf",
+  },
+  {
+    title: "Full Stack Web Development with Python — Professional",
+    issuer: "Coursera",
+    file: "/certs/full-stack-web.pdf",
   },
 ];
 
 export function Experience() {
   return (
-    <Section id="experience" eyebrow="Experience" title="Where I've worked">
-      <div className="relative">
-        <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-[var(--neon)] via-[var(--cyan)] to-transparent md:left-1/2" />
-        <div className="space-y-8">
-          {items.map((it, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: i % 2 ? 30 : -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className={`relative md:w-1/2 ${i % 2 ? "md:ml-auto md:pl-10" : "md:pr-10"} pl-12 md:pl-0`}
-            >
-              <div
-                className={`absolute top-5 size-3 rounded-full bg-[var(--cyan)] shadow-[0_0_15px_var(--cyan)] left-[10px] md:left-auto ${
-                  i % 2 ? "md:-left-1.5" : "md:-right-1.5"
-                }`}
-              />
-              <div className="border-glow glass rounded-2xl p-6">
-                <div className="font-mono text-xs text-[var(--cyan)]">{it.when}</div>
-                <div className="mt-1 font-display text-xl font-semibold">{it.role}</div>
-                <div className="mb-3 text-sm text-foreground/60">{it.org}</div>
-                <p className="text-sm text-foreground/75">{it.body}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+    <Section
+      id="certifications"
+      eyebrow="Certifications"
+      title="Continually learning, formally."
+      subtitle="Coursework and credentials that back up the engineering work."
+    >
+      <div className="grid gap-5 md:grid-cols-2">
+        {certs.map((c, idx) => (
+          <motion.a
+            key={c.title}
+            href={c.file}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.55, delay: idx * 0.05, ease: [0.22, 1, 0.36, 1] }}
+            className="surface surface-hover group relative overflow-hidden rounded-2xl p-6"
+          >
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-12 -top-12 size-40 rounded-full opacity-40 blur-3xl"
+              style={{ background: "radial-gradient(circle, rgba(198,142,85,0.35), transparent 70%)" }}
+            />
+            <div className="flex items-start justify-between gap-4">
+              <span className="grid size-10 place-items-center rounded-xl border border-[var(--copper)]/25 bg-[var(--copper)]/10 text-copper">
+                <Award className="size-4" />
+              </span>
+              <ExternalLink className="size-4 text-muted-foreground transition-colors group-hover:text-copper" />
+            </div>
+            <h3 className="mt-5 text-[16px] font-medium leading-snug tracking-tight">
+              {c.title}
+            </h3>
+            <p className="mt-1.5 text-[13px] text-muted-foreground">{c.issuer}</p>
+          </motion.a>
+        ))}
       </div>
     </Section>
   );

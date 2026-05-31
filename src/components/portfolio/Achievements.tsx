@@ -1,53 +1,72 @@
-import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
-import { useEffect, useRef } from "react";
-import { Award, Code2, Rocket, Star, Trophy } from "lucide-react";
+import { motion, useInView, useMotionValue, animate } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import { Section } from "./Section";
+import { Award, Code2, GraduationCap, Trophy } from "lucide-react";
 
-function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
+const stats = [
+  { icon: GraduationCap, value: 8.73, suffix: "", label: "CGPA", decimals: 2 },
+  { icon: Trophy, value: 1, suffix: "", label: "Smart India Hackathon — Institute Round Qualifier", small: true },
+  { icon: Code2, value: 8, suffix: "+", label: "Full Stack Projects Shipped" },
+  { icon: Award, value: 4, suffix: "+", label: "Coursera Certifications" },
+];
+
+function Counter({ to, decimals = 0, suffix = "" }: { to: number; decimals?: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
+  const inView = useInView(ref, { once: true, margin: "-50px" });
   const mv = useMotionValue(0);
-  const rounded = useTransform(mv, (v) => `${Math.floor(v)}${suffix}`);
+  const [display, setDisplay] = useState("0");
   useEffect(() => {
-    if (inView) animate(mv, to, { duration: 1.6, ease: "easeOut" });
-  }, [inView, mv, to]);
+    if (!inView) return;
+    const controls = animate(mv, to, { duration: 1.6, ease: [0.22, 1, 0.36, 1] });
+    const unsub = mv.on("change", (v) => setDisplay(v.toFixed(decimals)));
+    return () => {
+      controls.stop();
+      unsub();
+    };
+  }, [inView, to, decimals, mv]);
   return (
-    <motion.span ref={ref} className="font-display text-5xl font-bold text-gradient">
-      {rounded}
-    </motion.span>
+    <span ref={ref}>
+      {display}
+      {suffix}
+    </span>
   );
 }
 
-const stats = [
-  { icon: Code2, label: "Problems Solved", value: 600, suffix: "+" },
-  { icon: Trophy, label: "Hackathons", value: 8 },
-  { icon: Award, label: "Certifications", value: 12 },
-  { icon: Star, label: "CGPA", value: 9, suffix: ".1" },
-  { icon: Rocket, label: "Projects Built", value: 15, suffix: "+" },
-];
-
 export function Achievements() {
   return (
-    <Section id="achievements" eyebrow="Achievements" title="By the numbers">
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5">
-        {stats.map((s, i) => {
-          const Icon = s.icon;
-          return (
-            <motion.div
-              key={s.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="border-glow glass relative overflow-hidden rounded-2xl p-6"
-            >
-              <Icon className="mb-4 size-6 text-[var(--cyan)]" />
-              <Counter to={s.value} suffix={s.suffix ?? ""} />
-              <div className="mt-2 text-sm text-foreground/60">{s.label}</div>
-              <div className="absolute -bottom-10 -right-10 size-32 rounded-full bg-[var(--neon)]/20 blur-3xl" />
-            </motion.div>
-          );
-        })}
+    <Section
+      id="achievements"
+      eyebrow="Achievements"
+      title="Milestones along the way."
+      subtitle="A few highlights that reflect consistent effort and curiosity."
+    >
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((s, idx) => (
+          <motion.div
+            key={s.label}
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.55, delay: idx * 0.06, ease: [0.22, 1, 0.36, 1] }}
+            className="surface surface-hover relative overflow-hidden rounded-2xl p-6"
+          >
+            <span className="grid size-9 place-items-center rounded-xl border border-[var(--copper)]/25 bg-[var(--copper)]/10 text-copper">
+              <s.icon className="size-4" />
+            </span>
+            {s.small ? (
+              <div className="mt-5 text-[15px] font-medium leading-snug tracking-tight text-foreground">
+                {s.label}
+              </div>
+            ) : (
+              <>
+                <div className="mt-5 text-4xl font-semibold tracking-tight text-foreground">
+                  <Counter to={s.value} decimals={s.decimals ?? 0} suffix={s.suffix ?? ""} />
+                </div>
+                <div className="mt-1 text-[13px] text-muted-foreground">{s.label}</div>
+              </>
+            )}
+          </motion.div>
+        ))}
       </div>
     </Section>
   );
