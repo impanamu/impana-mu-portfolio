@@ -6,22 +6,22 @@ const certs = [
   {
     title: "Introduction to Cloud Computing & Core AWS Services",
     issuer: "Coursera",
-    file: "/certificates/cloud-computing.pdf",
+    file: "/certs/cloud-computing.pdf",
   },
   {
     title: "Supervised Machine Learning: Classification",
     issuer: "IBM · Coursera",
-    file: "/certificates/machine-learning.pdf",
+    file: "/certs/machine-learning.pdf",
   },
   {
-    title: "Advanced Python Programming",
-    issuer: "Coursera",
-    file: "/certificates/advanced-python.pdf",
+    title: "Agile Project Management",
+    issuer: "University of Colorado Boulder · Coursera",
+    file: "/certs/cryptography.pdf",
   },
   {
     title: "Full Stack Web Development with Python — Professional",
     issuer: "Coursera",
-    file: "/certificates/full-stack-web-development.pdf",
+    file: "/certs/full-stack-web.pdf",
   },
 ];
 
